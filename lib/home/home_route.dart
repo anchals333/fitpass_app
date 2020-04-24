@@ -21,7 +21,6 @@ class _HomeState extends State<HomeRoute> {
         await Geolocator().checkGeolocationPermissionStatus();
     // permission granted
     print(geolocationStatus.value);
-    if (geolocationStatus.value == 2) {
       Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
       Position position = await geolocator
           .getCurrentPosition(
@@ -42,9 +41,7 @@ class _HomeState extends State<HomeRoute> {
               jsonData.map((value) => HomeModelData.fromJson(value)).toList();
           listitem.addAll(list);
         }
-      } else {
-        location = 'Location not available';
-      }
+
 
       return location;
     } else {
