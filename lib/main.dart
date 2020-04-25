@@ -1,4 +1,7 @@
+import 'package:fitpass_app/constants/constants.dart';
+import 'package:fitpass_app/home/home_route.dart';
 import 'package:fitpass_app/login/login_route.dart';
+import 'package:fitpass_app/sharedprefrance/sharedprefrance.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -22,9 +25,25 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LoginRoute(),
+      home: FutureBuilder(
+          future: checkLogin(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == true) {
+              return HomeRoute();
+            } else {
+              return LoginRoute();
+            }
+          }
+      ),
     );
   }
+
+  Future<bool> checkLogin() async {
+    bool login = await Sharedprefrance.getBoolean(Appconstants.IS_LOGGED_IN) ?? false;
+    return login;
+  }
+
+
 }
 
 class MyHomePage extends StatefulWidget {
